@@ -1,43 +1,43 @@
 const fs = require('fs');
 const input = fs.readFileSync('input.txt', 'utf8');
 
-const santaRegex = /mul\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/g;
+const historianRegex = /mul\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/g;
 
-let elf;
-let reindeerSum = 0;
+let historian;
+let warehouseSum = 0;
 
-while ((elf = santaRegex.exec(input)) !== null) {
-    const candyCane = parseInt(elf[1], 10);
-    const snowflake = parseInt(elf[2], 10);
-    reindeerSum += candyCane * snowflake;
+while ((historian = historianRegex.exec(input)) !== null) {
+    const chief = parseInt(historian[1], 10);
+    const stock = parseInt(historian[2], 10);
+    warehouseSum += chief * stock;
 }
 
-let sleighSum = 0;
-let santaEnabled = true;
+let accurateSum = 0;
+let instructionsEnabled = true;
 
-let chimney = 0;
-while (chimney < input.length) {
-    if (input.slice(chimney).startsWith("do()")) {
-        santaEnabled = true;
-        chimney += 4;
-    } else if (input.slice(chimney).startsWith("don't()")) {
-        santaEnabled = false;
-        chimney += 7;
+let memoryIndex = 0;
+while (memoryIndex < input.length) {
+    if (input.slice(memoryIndex).startsWith("do()")) {
+        instructionsEnabled = true;
+        memoryIndex += 4;
+    } else if (input.slice(memoryIndex).startsWith("don't()")) {
+        instructionsEnabled = false;
+        memoryIndex += 7;
     } else {
-        const santaMatch = santaRegex.exec(input.slice(chimney));
-        if (santaMatch && santaMatch.index === 0) {
-            if (santaEnabled) {
-                const candyCane = parseInt(santaMatch[1], 10);
-                const snowflake = parseInt(santaMatch[2], 10);
-                sleighSum += candyCane * snowflake;
+        const historianMatch = historianRegex.exec(input.slice(memoryIndex));
+        if (historianMatch && historianMatch.index === 0) {
+            if (instructionsEnabled) {
+                const chief = parseInt(historianMatch[1], 10);
+                const stock = parseInt(historianMatch[2], 10);
+                accurateSum += chief * stock;
             }
-            chimney += santaMatch[0].length;
+            memoryIndex += historianMatch[0].length;
         } else {
-            chimney++;
+            memoryIndex++;
         }
     }
-    santaRegex.lastIndex = 0;
+    historianRegex.lastIndex = 0;
 }
 
-console.log(`The sum of all valid multiplications (original code) is: ${reindeerSum}`);
-console.log(`The sum of all valid multiplications (with do() and don't()) is: ${sleighSum}`);
+console.log(`The sum of all valid multiplications (original code) is: ${warehouseSum}`);
+console.log(`The sum of all valid multiplications (with do() and don't()) is: ${accurateSum}`);
